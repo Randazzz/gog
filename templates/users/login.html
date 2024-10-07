@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/users/login.css' %}">
+    <title>Авторизация</title>
+</head>
+<body>
+<div class="container">
+    <div class="notification">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <button class="close-btn">&times;</button>
+    </div>
+
+    <form class="login-form" action="{% url 'users:login' %}" method="post">
+        {% csrf_token %}
+        <label for="username">Логин:</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Авторизация</button>
+
+        <div class="forgot-password">
+            <a href="#">Забыли пароль?</a>
+        </div>
+        <div class="social-login">
+            <button class="social-btn google">Google</button>
+            <button class="social-btn vk">VK</button>
+            <button class="social-btn github">GitHub</button>
+        </div>
+
+        <div class="register">
+            <span>Нужен аккаунт? </span><a href="{% url 'users:registration' %}">Зарегистрируйся!</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    const closeBtn = document.querySelector('.close-btn');
+    const notification = document.querySelector('.notification');
+
+    closeBtn.addEventListener('click', () => {
+        notification.style.display = 'none';
+    });
+</script>
+</body>
+</html>

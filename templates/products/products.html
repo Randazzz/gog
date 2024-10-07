@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/products/products.css' %}">
+{% endblock %}
+{% block title %}
+<title>{{ title }}</title>
+{% endblock %}
+{% block content %}
+    <nav class="category-nav">
+        {% for category in categories %}
+            <button class="category-button">{{ category.name }}</button>
+        {% endfor %}
+    </nav>
+
+    <main class="white-background">
+        <section class="product-list">
+            {% for product in products %}
+                <div class="product-card">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h2>{{ product.name }}</h2>
+                    <p>{{ product.description }}</p>
+                    <p class="price">Цена: {{ product.price }} Р.</p>
+                    <button class="buy-button">Купить</button>
+                </div>
+            {% endfor %}
+        </section>
+
+        <section class="pagination">
+            <button class="prev-button">Предыдущая</button>
+            <button class="page-button">1</button>
+            <button class="page-button">2</button>
+            <button class="page-button">3</button>
+            <button class="next-button">Следующая</button>
+        </section>
+    </main>
+{% endblock %}

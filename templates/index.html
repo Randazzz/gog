@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/index.css' %}"> {% endblock %}
+{% block content %}
+    <main>
+        <div class="content">
+            <h1>Grace of the Gods</h1>
+            <p class="black-text">Погрузитесь в мир изысканной одежды, разработанной с любовью и вниманием к деталям.
+                Наши коллекции вдохновлены богами, чтобы даровать вам чувство стиля и уверенности.
+                Проводите время, наслаждаясь качественными материалами и уникальным дизайном, которые помогут вам
+                выделиться
+                из толпы!</p>
+            <a href="{% url 'products:index' %}" class="shop-button">Начать покупки</a>
+        </div>
+    </main>
+{% endblock %}

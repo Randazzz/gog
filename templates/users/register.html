@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/users/register.css' %}">
+    <title>Регистрация</title>
+</head>
+<body>
+<div class="notification" id="notification">
+    <span class="close-btn" onclick="closeNotification()">×</span>
+</div>
+<div class="registration-form">
+    <h2>Создать аккаунт</h2>
+    <form action="{% url  'users:registration' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Создать аккаунт</button>
+    </form>
+    <p>Уже есть аккаунт? <a href="{% url 'users:login' %}">Авторизоваться</a></p>
+</div>
+
+<script>
+    function closeNotification() {
+        document.getElementById("notification").style.display = "none";
+    }
+</script>
+</body>
+</html>

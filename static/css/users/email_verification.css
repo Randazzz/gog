@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.verification-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 5px;
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 100px;
+}
+
+.verification-container h1 {
+    color: #5cb85c;
+    margin-bottom: 20px;
+}
+
+.verification-container p {
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.verification-container button {
+    padding: 10px 20px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.verification-container button:hover {
+    background-color: #4cae4c;
+}

@@ -1,0 +1,27 @@
+body {
+    background-color: #007bff;
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+}
+
+.card {
+    background-color: #ffffff;
+    color: #333;
+}
+
+.card-header {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+h3 {
+    margin: 0;
+}
+
+h4 {
+    margin-top: 20px;
+}
