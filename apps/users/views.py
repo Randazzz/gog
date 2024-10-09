@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 # from .forms import UserRegistrationForm
 from django.contrib.auth import authenticate, login, logout
+from django.template import context
 
 from apps.users.forms import UserRegistrationForm
 
@@ -16,9 +17,10 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Аккаунт успешно создан!')
             return redirect('users:login')
         else:
-            return render(request, 'users/register.html', {'form': form})
+            return render(request, 'users/register.html', {"form": form})
     else:
         form = UserRegistrationForm()
         return render(request, 'users/register.html', {"form": form})
@@ -33,7 +35,9 @@ def login_view(request):
             login(request, user)
             return redirect('/')
         else:
+
             messages.error(request, 'Неверное имя пользователя или пароль.')
             return render(request, 'users/login.html')
     else:
-        return render(request, 'users/login.html')
+        has_success = {'has_success': messages.get_messages(request)}
+        return render(request, 'users/login.html', context=has_success)

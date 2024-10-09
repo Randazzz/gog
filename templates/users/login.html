@@ -10,16 +10,15 @@
 </head>
 <body>
 <div class="container">
-    <div class="notification">
-        {% if messages %}
+    {% if messages %}
+        <div class="notification notification-{% if has_success %}success{% else %}error{% endif %}">
             <ul class="messages">
                 {% for message in messages %}
-                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    <li>{{ message }}</li>
                 {% endfor %}
             </ul>
-        {% endif %}
-        <button class="close-btn">&times;</button>
-    </div>
+        </div>
+    {% endif %}
 
     <form class="login-form" action="{% url 'users:login' %}" method="post">
         {% csrf_token %}

@@ -10,12 +10,11 @@ body {
     margin: 100px auto;
     background: white;
     padding: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 }
 
 .notification {
-    background-color: #ffcc00;
     padding: 10px;
     margin-bottom: 20px;
     position: relative;
@@ -80,4 +79,37 @@ button:hover {
 
 .register {
     text-align: center;
+}
+
+.notification.success {
+    background-color: green;
+}
+
+.notification-error {
+    background-color: #f8d7da; /* Светло-красный фон */
+    color: #721c24; /* Темно-красный текст */
+    border: 1px solid #f5c6cb; /* Красная граница */
+}
+
+.notification-info {
+    background-color: #d1ecf1; /* Светло-голубой фон */
+    color: #0c5460; /* Темно-голубой текст */
+    border: 1px solid #bee5eb; /* Голубая граница */
+}
+
+.notification-success {
+    background-color: #d4edda; /* Светло-зеленый фон */
+    color: #155724; /* Темно-зеленый текст */
+    border: 1px solid #c3e6cb; /* Зеленая граница */
+}
+
+.messages {
+    list-style-type: none; /* Убирает маркеры списка */
+    padding: 0; /* Убирает отступы */
+    margin: 0; /* Убирает внешние отступы */
+}
+
+/* Стили для списка сообщений */
+.messages li {
+    margin: 5px 0; /* Отступы между сообщениями */
 }

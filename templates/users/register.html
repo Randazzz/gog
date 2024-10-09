@@ -9,19 +9,37 @@
     <title>Регистрация</title>
 </head>
 <body>
-<div class="notification" id="notification">
-    <span class="close-btn" onclick="closeNotification()">×</span>
-</div>
 <div class="registration-form">
+    {% if form.errors %}
+        <div class="notification" id="notification">
+            <span class="close-btn" onclick="closeNotification()">×</span>
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    <li>{{ errors|join:", " }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
     <h2>Создать аккаунт</h2>
-    <form action="{% url  'users:registration' %}" method="post">
+    <form action="{% url 'users:registration' %}" method="post" class="form">
         {% csrf_token %}
-        {{ form.as_p }}
-
-        <button type="submit">Создать аккаунт</button>
+        <div class="form-group">
+            {{ form.username.label }} {{ form.username }}<br>
+        </div>
+        <div class="form-group">
+            {{ form.email.label }} {{ form.email }}<br>
+        </div>
+        <div class="form-group">
+            {{ form.password1.label }} {{ form.password1 }}<br>
+        </div>
+        <div class="form-group">
+            {{ form.password2.label }} {{ form.password2 }}<br>
+        </div>
+        <button type="submit" class="btn">Создать аккаунт</button>
     </form>
     <p>Уже есть аккаунт? <a href="{% url 'users:login' %}">Авторизоваться</a></p>
 </div>
+
 
 <script>
     function closeNotification() {
