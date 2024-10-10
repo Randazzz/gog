@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Product, ProductCategory
+from django.db.models import Sum
 
 
 def index(request):
@@ -7,9 +8,12 @@ def index(request):
 
 
 def products(request):
+    categories = ProductCategory.objects.annotate(total_quantity=Sum('products__quantity'))
+
     context = {
         'title': 'Каталог',
-        'products': Product.objects.all(),
-        'categories': ProductCategory.objects.all(),
+        'products': Product.objects.filter(quantity__gte=1),
+        'categories': categories.filter(total_quantity__gte=1),
     }
+
     return render(request, 'products/products.html', context)
