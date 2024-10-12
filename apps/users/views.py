@@ -1,18 +1,22 @@
 from django.contrib import messages
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
-# from .forms import UserRegistrationForm
 from django.contrib.auth import authenticate, login, logout
-from django.template import context
+
 
 from apps.users.forms import UserRegistrationForm
 
 
 def profile(request):
-    return render(request, 'users/profile.html')
+    context = {
+        'title': 'Профиль'
+    }
+    return render(request, 'users/profile.html', context)
 
 
 def register(request):
+    context = {
+        'title': 'Регистрация'
+    }
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -20,10 +24,12 @@ def register(request):
             messages.success(request, 'Аккаунт успешно создан!')
             return redirect('users:login')
         else:
-            return render(request, 'users/register.html', {"form": form})
+            context['form'] = form
+            return render(request, 'users/register.html', context)
     else:
         form = UserRegistrationForm()
-        return render(request, 'users/register.html', {"form": form})
+        context['form'] = form
+        return render(request, 'users/register.html', context)
 
 
 def login_view(request):
@@ -39,5 +45,5 @@ def login_view(request):
             messages.error(request, 'Неверное имя пользователя или пароль.')
             return render(request, 'users/login.html')
     else:
-        has_success = {'has_success': messages.get_messages(request)}
-        return render(request, 'users/login.html', context=has_success)
+        context = {'has_success': messages.get_messages(request)}
+        return render(request, 'users/login.html', context)

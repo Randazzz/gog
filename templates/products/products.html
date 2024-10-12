@@ -5,12 +5,13 @@
     <link rel="stylesheet" href="{% static 'css/products/products.css' %}">
 {% endblock %}
 {% block title %}
-<title>{{ title }}</title>
+    <title>{{ title }}</title>
 {% endblock %}
 {% block content %}
     <nav class="category-nav">
         {% for category in categories %}
-            <button class="category-button">{{ category.name }}</button>
+            <a href="{% url 'products:product_by_category' category.id %}"
+               class="category-button">{{ category.name }}</a>
         {% endfor %}
     </nav>
 
@@ -26,13 +27,14 @@
                 </div>
             {% endfor %}
         </section>
-
-        <section class="pagination">
-            <button class="prev-button">Предыдущая</button>
-            <button class="page-button">1</button>
-            <button class="page-button">2</button>
-            <button class="page-button">3</button>
-            <button class="next-button">Следующая</button>
-        </section>
+        {% if not category_id %}
+            <section class="pagination">
+                <button class="prev-button">Предыдущая</button>
+                <button class="page-button">1</button>
+                <button class="page-button">2</button>
+                <button class="page-button">3</button>
+                <button class="next-button">Следующая</button>
+            </section>
+        {% endif %}
     </main>
 {% endblock %}
