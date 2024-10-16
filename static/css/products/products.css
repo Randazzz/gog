@@ -154,3 +154,34 @@ nav a {
     font-size: 16px;
     margin-left: -5px;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center; /* Центрирует элементы пагинации по горизонтали */
+    padding: 10px;
+    background-color: #f8f9fa; /* Светлый фон для панели пагинации */
+    border-radius: 5px; /* Закругленные углы */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Легкая тень */
+}
+
+.step-links {
+    display: flex;
+    align-items: center; /* Выравнивание элементов по центру */
+}
+
+.step-links a {
+    margin: 0 10px; /* Отступы между ссылками */
+    text-decoration: none; /* Убирает подчеркивание у ссылок */
+    color: #007bff; /* Цвет ссылок */
+    transition: color 0.3s; /* Плавный переход цвета при наведении */
+}
+
+.step-links a:hover {
+    color: #0056b3; /* Цвет ссылок при наведении */
+}
+
+.current {
+    margin: 0 10px;
+    font-weight: bold; /* Жирный текст для текущей страницы */
+    color: #333; /* Цвет текста для текущей страницы */
+}

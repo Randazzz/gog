@@ -9,7 +9,9 @@
 {% endblock %}
 {% block content %}
     <nav class="category-nav">
-        {% for category in categories %}
+        <a href="{% url 'products:index' %}"
+           class="category-button">Все категории</a>
+        {% for category in visible_categories %}
             <a href="{% url 'products:product_by_category' category.id %}"
                class="category-button">{{ category.name }}</a>
         {% endfor %}
@@ -17,7 +19,7 @@
 
     <main class="white-background">
         <section class="product-list">
-            {% for product in products %}
+            {% for product in paginated_products %}
                 <div class="product-card">
                     <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     <h2>{{ product.name }}</h2>
@@ -27,14 +29,19 @@
                 </div>
             {% endfor %}
         </section>
-        {% if not category_id %}
-            <section class="pagination">
-                <button class="prev-button">Предыдущая</button>
-                <button class="page-button">1</button>
-                <button class="page-button">2</button>
-                <button class="page-button">3</button>
-                <button class="next-button">Следующая</button>
-            </section>
-        {% endif %}
+
+        <div class="pagination">
+            <span class="step-links">
+                {% for paginated_products_page in paginated_products.paginator.page_range %}
+                    {% if paginated_products_page == paginated_products.number %}
+                        <span class="current">
+                            {{ paginated_products.number }}
+                        </span>
+                    {% else %}
+                        <a href="?page={{ paginated_products_page }}">{{ paginated_products_page }}</a>
+                    {% endif %}
+                {% endfor %}
+            </span>
+        </div>
     </main>
 {% endblock %}
