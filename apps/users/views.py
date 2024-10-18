@@ -2,13 +2,30 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 
-from apps.users.forms import UserRegistrationForm
+from apps.users.forms import UserProfileForm, UserRegistrationForm
+from apps.users.models import User
 
 
 def profile(request):
+    user = request.user
     context = {
-        'title': 'Профиль'
+        'title': 'Профиль',
     }
+
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=user)
+
+        if 'remove_avatar' in request.POST:
+            user.image.delete()
+
+        if form.is_valid():
+            form.save()
+            return redirect('users:profile')
+
+    else:
+        form = UserProfileForm(instance=user)
+
+    context['form'] = form
     return render(request, 'users/profile.html', context)
 
 
@@ -16,19 +33,15 @@ def register(request):
     context = {
         'title': 'Регистрация'
     }
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Аккаунт успешно создан!')
-            return redirect('users:login')
-        else:
-            context['form'] = form
-            return render(request, 'users/register.html', context)
-    else:
-        form = UserRegistrationForm()
-        context['form'] = form
-        return render(request, 'users/register.html', context)
+    form = UserRegistrationForm(request.POST or None)
+
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        messages.success(request, 'Аккаунт успешно создан!')
+        return redirect('users:login')
+
+    context['form'] = form
+    return render(request, 'users/register.html', context)
 
 
 def login_view(request):

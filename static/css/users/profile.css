@@ -58,6 +58,8 @@
 }
 
 .cart-section {
+    margin: 0 auto !important;
+    width: 50% !important;
     margin-top: 30px;
     border-top: 1px solid #ccc;
     padding-top: 20px;
@@ -182,4 +184,18 @@ body {
     cursor: pointer;
     font-size: 16px;
     margin-left: -5px;
+}
+
+.remove-avatar {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.remove-avatar:hover {
+    background-color: #d32f2f;
 }
