@@ -41,23 +41,19 @@
     </form>
 
     <div class="cart-section">
-        <h2>Корзина</h2>
-        <div class="cart-item">
-            <span>Товар 1</span>
-            <span class="item-price">100₽</span>
-            <button class="remove-button">Удалить</button>
-        </div>
-        <div class="cart-item">
-            <span>Товар 2</span>
-            <span class="item-price">200₽</span>
-            <button class="remove-button">Удалить</button>
-        </div>
-
-        <div class="cart-total">
-            <span>Итого: </span>
-            <span class="total-price">300₽</span>
-        </div>
-
-        <button class="checkout-button">Оформить заказ</button>
+        {% if baskets %}
+            <h2>Корзина</h2>
+            {% for basket in baskets %}
+                <div class="cart-item">
+                    <span>Товар: {{ basket.product }} Количество: {{ basket.quantity }}</span>
+                    <span class="item-price">{{ basket.product.price }}</span>
+                    <a href="{% url 'products:basket_remove' basket.id %}"
+                        class="remove-button">Удалить</a>
+                </div>
+            {% endfor %}
+            <button class="checkout-button">Оформить заказ</button>
+        {% else %}
+            <h2>Корзина пуста</h2>
+        {% endif %}
     </div>
 {% endblock %}

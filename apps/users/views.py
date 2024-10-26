@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
 
+from apps.products.models import Basket
 from apps.users.forms import UserProfileForm, UserRegistrationForm
 from apps.users.models import User
 
@@ -10,6 +11,7 @@ def profile(request):
     user = request.user
     context = {
         'title': 'Профиль',
+        'baskets': Basket.objects.filter(user=user),
     }
 
     if request.method == 'POST':
