@@ -13,20 +13,15 @@ def profile(request):
         'title': 'Профиль',
         'baskets': Basket.objects.filter(user=user),
     }
-
     if request.method == 'POST':
         form = UserProfileForm(request.POST, request.FILES, instance=user)
-
         if 'remove_avatar' in request.POST:
             user.image.delete()
-
         if form.is_valid():
             form.save()
             return redirect('users:profile')
-
     else:
         form = UserProfileForm(instance=user)
-
     context['form'] = form
     return render(request, 'users/profile.html', context)
 

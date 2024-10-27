@@ -51,7 +51,7 @@
                         class="remove-button">Удалить</a>
                 </div>
             {% endfor %}
-            <button class="checkout-button">Оформить заказ</button>
+            <button class="checkout-button">Оформить заказ Товаров:{{ baskets.total_quantity }} Цена: {{ baskets.total_sum }}</button>
         {% else %}
             <h2>Корзина пуста</h2>
         {% endif %}
