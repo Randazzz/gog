@@ -1,10 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.db.models import Sum
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from .models import Product, ProductCategory, Basket
+from .models import Basket, Product, ProductCategory
 
 
 def index(request):
@@ -15,18 +14,17 @@ def index(request):
 
 
 def products(request, category_id=None):
-    product_categories = ProductCategory.objects.annotate(total_quantity=Sum('products__quantity'))
-    available_products = Product.objects.filter(quantity__gte=1)
-    if category_id:
-        available_products = available_products.filter(category__id=category_id)
-    product_list = available_products
-    paginator = Paginator(product_list, 3)
+    visible_categories = ProductCategory.with_product_count().filter(total_quantity__gte=1)
+    available_products = Product.available(category_id=category_id)
+
+    paginator = Paginator(available_products, 3)
     current_page_number = request.GET.get('page')
     paginated_products = paginator.get_page(current_page_number)
+
     context = {
         'title': 'Каталог',
         'paginated_products': paginated_products,
-        'visible_categories': product_categories.filter(total_quantity__gte=1),
+        'visible_categories': visible_categories,
         'category_id': category_id,
     }
 

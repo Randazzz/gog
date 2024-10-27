@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 
 from apps.users.models import User
 
@@ -13,6 +14,10 @@ class ProductCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+    @classmethod
+    def with_product_count(cls):
+        return cls.objects.annotate(total_quantity=Sum('products__quantity'))
 
 
 class Product(models.Model):
@@ -29,6 +34,13 @@ class Product(models.Model):
     class Meta:
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
+
+    @classmethod
+    def available(cls, category_id=None):
+        queryset = cls.objects.filter(quantity__gte=1)
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+        return queryset
 
 
 class BasketQuerySet(models.QuerySet):
@@ -52,4 +64,3 @@ class Basket(models.Model):
 
     def sum(self):
         return self.quantity * self.product.price
-

@@ -4,7 +4,6 @@ from django.shortcuts import redirect, render
 
 from apps.products.models import Basket
 from apps.users.forms import UserProfileForm, UserRegistrationForm
-from apps.users.models import User
 
 
 def profile(request):
