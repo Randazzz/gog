@@ -19,11 +19,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
-from apps.products.views import index
+from apps.products.views import IndexTemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index'),
+    path('', IndexTemplateView.as_view(), name='index'),
     path('products/', include('apps.products.urls', namespace='products')),
     path('users/', include('apps.users.urls', namespace='users')),
     path('orders/', include('apps.orders.urls', namespace='orders')),

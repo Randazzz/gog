@@ -19,7 +19,7 @@
 
     <main class="white-background">
         <section class="product-list">
-            {% for product in paginated_products %}
+            {% for product in object_list %}
                 <div class="product-card">
                     <img src="{{ product.image.url }}" alt="{{ product.name }}">
                     <h2>{{ product.name }}</h2>
@@ -33,10 +33,10 @@
 
         <div class="pagination">
             <span class="step-links">
-                {% for paginated_products_page in paginated_products.paginator.page_range %}
-                    {% if paginated_products_page == paginated_products.number %}
+                {% for paginated_products_page in page_obj.paginator.page_range %}
+                    {% if paginated_products_page == page_obj.number %}
                         <span class="current">
-                            {{ paginated_products.number }}
+                            {{ page_obj.number }}
                         </span>
                     {% else %}
                         <a href="?page={{ paginated_products_page }}">{{ paginated_products_page }}</a>
