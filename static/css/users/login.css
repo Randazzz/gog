@@ -99,7 +99,7 @@ button:hover {
 
 .notification-success {
     background-color: #d4edda; /* Светло-зеленый фон */
-    color: #155724; /* Темно-зеленый текст */
+    color: green; /* Темно-зеленый текст */
     border: 1px solid #c3e6cb; /* Зеленая граница */
 }
 

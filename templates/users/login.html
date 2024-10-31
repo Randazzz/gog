@@ -10,17 +10,21 @@
 </head>
 <body>
 <div class="container">
-    {% if messages %}
-        <div class="notification notification-{% if has_success %}success{% else %}error{% endif %}">
+    {% if messages or form.non_field_errors %}
+        <div class="notification notification-{% if messages %}success{% else %}error{% endif %}">
             <ul class="messages">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
+                {% if messages %}
+                    {% for message in messages %}
+                        {{ message }}
+                    {% endfor %}
+                {% else %}
+                    {{ form.non_field_errors }}
+                {% endif %}
             </ul>
         </div>
     {% endif %}
 
-    <form class="login-form" action="{% url 'users:login' %}" method="post">
+    <form class="login-form" action="{% url 'users:login' %}" method="post" class="form">
         {% csrf_token %}
         <label for="username">Логин:</label>
         <input type="text" id="username" name="username" required>

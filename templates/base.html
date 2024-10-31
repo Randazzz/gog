@@ -18,7 +18,7 @@
                 <li class="dropdown">
                     <a href="#" class="profile">👤</a>
                     <ul class="dropdown-content">
-                        <li><a href="{% url 'users:profile' %}">Профиль</a></li>
+                        <li><a href="{% url 'users:profile' user.pk %}">Профиль</a></li>
                         <li><a href="{% url 'orders:index' %}">Заказы</a></li>
                         {% if user.is_superuser or user.is_staff %}
                             <li><a href="{% url 'admin:index' %}">Админ панель</a></li>

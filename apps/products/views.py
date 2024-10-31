@@ -1,22 +1,17 @@
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 
 from .models import Basket, Product, ProductCategory
 
 
 class IndexTemplateView(TemplateView):
+    extra_context = {'title': 'Grace of the Gods'}
     template_name = 'index.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Grace of the Gods'
-        return context
 
 
 class ProductsListView(ListView):
+    extra_context = {'title': 'Каталог'}
     model = Product
     template_name = 'products/products.html'
     paginate_by = 3
@@ -31,7 +26,6 @@ class ProductsListView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         visible_categories = ProductCategory.with_product_count().filter(total_quantity__gte=1)
-        context['title'] = 'Каталог'
         context['visible_categories'] = visible_categories
         return context
 
