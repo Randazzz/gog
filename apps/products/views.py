@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView, ListView
+from django.views.generic import ListView, TemplateView
 
 from .models import Basket, Product, ProductCategory
 

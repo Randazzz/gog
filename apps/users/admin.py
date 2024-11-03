@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.users.models import User, EmailVerification
+from apps.users.models import EmailVerification, User
 
 
 @admin.register(User)
