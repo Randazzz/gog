@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.users.models import User
+from apps.users.models import User, EmailVerification
 
 
 @admin.register(User)
@@ -20,3 +20,10 @@ class UserAdmin(admin.ModelAdmin):
         'user_permissions',
     )
     search_fields = ('username',)
+
+
+@admin.register(EmailVerification)
+class EmailVerificationAdmin(admin.ModelAdmin):
+    list_display = ('user', 'expires_at', 'code')
+    fields = ('user', 'expires_at', 'created_at', 'code')
+    readonly_fields = ('created_at',)

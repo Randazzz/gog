@@ -1,11 +1,12 @@
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import UpdateView, CreateView
+from django.views.generic import UpdateView, CreateView, TemplateView
 
 from apps.products.models import Basket
 from apps.users.forms import UserProfileForm, UserRegistrationForm, UserLoginForm
-from apps.users.models import User
+from apps.users.models import User, EmailVerification
 
 
 class UserProfileView(UpdateView):
@@ -44,18 +45,17 @@ class UserLoginView(LoginView):
     form_class = UserLoginForm
 
 
-# def login_view(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         user = authenticate(request, username=username, password=password)
-#         if user is not None:
-#             login(request, user)
-#             return redirect('/')
-#         else:
-#
-#             messages.error(request, 'Неверное имя пользователя или пароль.')
-#             return render(request, 'users/login.html')
-#     else:
-#         context = {'has_success': messages.get_messages(request)}
-#         return render(request, 'users/login.html', context)
+class EmailVerificationView(TemplateView):
+    extra_context = {'title': 'Подтверждение эл. почты'}
+    template_name = 'users/email_verification.html'
+
+    def get(self, request, *args, **kwargs):
+        code = kwargs['code']
+        user = User.objects.get(email=kwargs['email'])
+        email_verifications = EmailVerification.objects.filter(user=user, code=code)
+        if email_verifications.exists() and not email_verifications.first().is_expired():
+            user.is_verified_email = True
+            user.save()
+            return super().get(self, request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(reverse_lazy('index'))
