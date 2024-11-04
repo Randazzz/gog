@@ -40,11 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
+    'allauth.socialaccount',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount.providers.github',
 
     'apps.products.apps.ProductsConfig',
     'apps.users.apps.UsersConfig',
     'apps.orders.apps.OrdersConfig',
-
 ]
 
 MIDDLEWARE = [
@@ -55,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'gog.urls'
@@ -150,3 +156,27 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'graceof.thegods@yandex.ru'
 EMAIL_HOST_PASSWORD = 'qzcelyomjfpvqgjb'
 EMAIL_USE_SSL = True
+
+# OAuth
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1
+
+SOCIALACCOUNT_QUERY_EMAIL = True
+
+SOCIALACCOUNT_ADAPTER = 'apps.users.allauth_adapter.SocialAccountAdapter'
+
+SOCIALACCOUNT_PROVIDERS = {
+    "github": {
+        "VERIFIED_EMAIL": True,
+        'SCOPE': [
+            'user',
+            'user:email',
+        ],
+        'EMAIL_AUTHENTICATION': True,
+    },
+}

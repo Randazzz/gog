@@ -1,3 +1,5 @@
+{% load socialaccount %}
+
 {% load static %}
 
 <!DOCTYPE html>
@@ -41,6 +43,7 @@
             <button class="social-btn google">Google</button>
             <button class="social-btn vk">VK</button>
             <button class="social-btn github">GitHub</button>
+            <a href="{% provider_login_url "github" %}">Log in with GitHub</a>
         </div>
 
         <div class="register">
