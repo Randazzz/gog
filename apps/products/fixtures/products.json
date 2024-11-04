@@ -54,7 +54,7 @@
       "name": "Черный рюкзак Nike Heritage",
       "description": "Плотная ткань. Легкий материал.",
       "price": "2340.00",
-      "quantity": 2,
+      "quantity": 1,
       "image": "products_images/Black-Nike-Heritage-backpack.png",
       "category": 3
     }
@@ -69,6 +69,30 @@
       "quantity": 1,
       "image": "products_images/Dark-blue-wide-leg-ASOs-DESIGN-trousers.png",
       "category": 2
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 7,
+    "fields": {
+      "name": "fdssfd",
+      "description": "",
+      "price": "211.00",
+      "quantity": 1,
+      "image": "products_images/Blue-jacket-The-North-Face_V9PaUmQ.png",
+      "category": 2
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 8,
+    "fields": {
+      "name": "31233",
+      "description": "1213",
+      "price": "134.00",
+      "quantity": 2,
+      "image": "products_images/Black-Nike-Heritage-backpack_9NsYIFm.png",
+      "category": 1
     }
   }
 ]
