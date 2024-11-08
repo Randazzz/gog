@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static cache %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/products/products.css' %}">
@@ -16,22 +16,20 @@
                class="category-button">{{ category.name }}</a>
         {% endfor %}
     </nav>
-
     <body class="white-background">
-        <section class="product-list">
-            {% for product in object_list %}
-                <div class="product-card">
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                    <h2>{{ product.name }}</h2>
-                    <p>{{ product.description }}</p>
-                    <p class="price">Цена: {{ product.price }} Р.</p>
-                    <a href="{% url 'products:basket_add' product.id %}"
-                        class="buy-button">Купить</a>
-                </div>
-            {% endfor %}
-        </section>
-
-        <div class="pagination">
+    <section class="product-list">
+        {% for product in object_list %}
+            <div class="product-card">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <h2>{{ product.name }}</h2>
+                <p>{{ product.description }}</p>
+                <p class="price">Цена: {{ product.price }} Р.</p>
+                <a href="{% url 'products:basket_add' product.id %}"
+                   class="buy-button">Купить</a>
+            </div>
+        {% endfor %}
+    </section>
+    <div class="pagination">
             <span class="step-links">
                 {% for paginated_products_page in page_obj.paginator.page_range %}
                     {% if paginated_products_page == page_obj.number %}
@@ -43,6 +41,6 @@
                     {% endif %}
                 {% endfor %}
             </span>
-        </div>
+    </div>
     </body>
 {% endblock %}

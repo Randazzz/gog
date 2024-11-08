@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, TemplateView
 
@@ -27,6 +28,7 @@ class ProductsListView(ListView):
         context = super().get_context_data(**kwargs)
         visible_categories = ProductCategory.with_product_count().filter(total_quantity__gte=1)
         context['visible_categories'] = visible_categories
+
         return context
 
 

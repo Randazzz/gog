@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/users/profile.css' %}">
 {% endblock %}
 {% block content %}
+    <body>
     <form action="{% url 'users:profile' user.pk %}" method="post" class="form" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="profile-container">
@@ -48,12 +49,14 @@
                     <span>Товар: {{ basket.product }} Количество: {{ basket.quantity }}</span>
                     <span class="item-price">{{ basket.product.price }}</span>
                     <a href="{% url 'products:basket_remove' basket.id %}"
-                        class="remove-button">Удалить</a>
+                       class="remove-button">Удалить</a>
                 </div>
             {% endfor %}
-            <button class="checkout-button">Оформить заказ Товаров:{{ baskets.total_quantity }} Цена: {{ baskets.total_sum }}</button>
+            <button class="checkout-button">Оформить заказ Товаров:{{ baskets.total_quantity }}
+                Цена: {{ baskets.total_sum }}</button>
         {% else %}
             <h2>Корзина пуста</h2>
         {% endif %}
     </div>
+    </body>
 {% endblock %}
