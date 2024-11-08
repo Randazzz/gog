@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount.providers.github',
+    'debug_toolbar',
 
     'apps.products.apps.ProductsConfig',
     'apps.users.apps.UsersConfig',
@@ -61,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'gog.urls'
@@ -83,6 +85,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'gog.wsgi.application'
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+    'localhost',
+]
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
