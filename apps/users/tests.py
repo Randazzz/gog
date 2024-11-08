@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils.timezone import now
 
 from apps.users.forms import UserLoginForm
-from apps.users.models import User, EmailVerification
+from apps.users.models import EmailVerification, User
 
 
 class UserRegistrationViewTests(TestCase):
