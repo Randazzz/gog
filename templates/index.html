@@ -7,7 +7,7 @@
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/index.css' %}"> {% endblock %}
 {% block content %}
-    <main>
+    <body>
         <div class="content">
             <h1>Grace of the Gods</h1>
             <p class="black-text">Погрузитесь в мир изысканной одежды, разработанной с любовью и вниманием к деталям.
@@ -17,5 +17,5 @@
                 из толпы!</p>
             <a href="{% url 'products:index' %}" class="shop-button">Начать покупки</a>
         </div>
-    </main>
+    </body>
 {% endblock %}
