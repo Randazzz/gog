@@ -173,6 +173,7 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'graceof.thegods@yandex.ru'
 EMAIL_HOST_PASSWORD = 'qzcelyomjfpvqgjb'
 EMAIL_USE_SSL = True
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # OAuth
 
@@ -197,3 +198,8 @@ SOCIALACCOUNT_PROVIDERS = {
         'EMAIL_AUTHENTICATION': True,
     },
 }
+
+# Celery
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
