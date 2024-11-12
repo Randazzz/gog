@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, TemplateView
 

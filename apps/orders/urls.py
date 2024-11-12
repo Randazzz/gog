@@ -1,10 +1,15 @@
 from django.urls import path
 
-from apps.orders.views import order_detail, orders
+from apps.orders.views import (CanceledTemplateView, OrderCreateView,
+                               OrderDetailView, OrderListView,
+                               SuccessTemplateView)
 
 app_name = 'orders'
 
 urlpatterns = [
-    path('', orders, name='index'),
-    path('order/', order_detail, name='order'),
+    path('order-create/', OrderCreateView.as_view(), name='order_create'),
+    path('', OrderListView.as_view(), name='orders_list'),
+    path('order/<int:pk>/', OrderDetailView.as_view(), name='order'),
+    path('order-success/', SuccessTemplateView.as_view(), name='order_success'),
+    path('order-canceled/', CanceledTemplateView.as_view(), name='order_canceled'),
 ]

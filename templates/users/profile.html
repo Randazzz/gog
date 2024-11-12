@@ -52,8 +52,9 @@
                        class="remove-button">Удалить</a>
                 </div>
             {% endfor %}
-            <button class="checkout-button">Оформить заказ Товаров:{{ baskets.total_quantity }}
-                Цена: {{ baskets.total_sum }}</button>
+            <a href="{% url 'orders:order_create' %}"
+               class="checkout-button">Оформить заказ Товаров:{{ baskets.total_quantity }}
+                Цена: {{ baskets.total_sum }}</a>
         {% else %}
             <h2>Корзина пуста</h2>
         {% endif %}

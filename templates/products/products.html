@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static cache %}
+{% load static cache humanize %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/products/products.css' %}">
@@ -23,7 +23,7 @@
                 <img src="{{ product.image.url }}" alt="{{ product.name }}">
                 <h2>{{ product.name }}</h2>
                 <p>{{ product.description }}</p>
-                <p class="price">Цена: {{ product.price }} Р.</p>
+                <p class="price">Цена: {{ product.price | intcomma }} Р.</p>
                 <a href="{% url 'products:basket_add' product.id %}"
                    class="buy-button">Купить</a>
             </div>
