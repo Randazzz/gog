@@ -37,6 +37,15 @@
                 </div>
 
                 <button class="save-button" type="submit">Сохранить изменения</button>
+                {% if not user.is_verified_email %}
+                    <form method="POST" action="{% url 'users:profile' user.pk %}"
+                          style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" name="resend_email" value="true" class="remove-avatar">Отправить письмо
+                            для подтверждения эл. почты
+                        </button>
+                    </form>
+                {% endif %}
             </div>
         </div>
     </form>

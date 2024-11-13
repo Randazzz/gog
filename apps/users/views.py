@@ -3,11 +3,12 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, TemplateView, UpdateView
+from django.views.generic import CreateView, TemplateView, UpdateView, View
 
 from apps.users.forms import (UserLoginForm, UserProfileForm,
                               UserRegistrationForm)
 from apps.users.models import EmailVerification, User
+from apps.users.tasks import send_email_verification
 
 
 class UserProfileView(UpdateView):
@@ -23,6 +24,9 @@ class UserProfileView(UpdateView):
         user = self.get_object()
         if 'remove_avatar' in request.POST:
             user.image.delete()
+        if 'resend_email' in request.POST and not user.is_verified_email:
+            EmailVerification.objects.filter(user=user).delete()
+            send_email_verification.delay(user.id)
         return super().post(request, *args, **kwargs)
 
 
@@ -60,3 +64,14 @@ class EmailVerificationView(TemplateView):
             return super().get(self, request, *args, **kwargs)
         else:
             return HttpResponseRedirect(reverse_lazy('index'))
+
+# class ResendVerificationEmailView(View):
+#
+#     def post(self):
+#         user = self.request.user
+#         try:
+#             EmailVerification.objects.filter(user=user).delete()
+#             send_email_verification.delay(user.id)
+#         except User.DoesNotExist:
+#                 print('Пользователь не найден')
+#         return redirect(self.request.path)
