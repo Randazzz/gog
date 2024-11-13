@@ -64,14 +64,3 @@ class EmailVerificationView(TemplateView):
             return super().get(self, request, *args, **kwargs)
         else:
             return HttpResponseRedirect(reverse_lazy('index'))
-
-# class ResendVerificationEmailView(View):
-#
-#     def post(self):
-#         user = self.request.user
-#         try:
-#             EmailVerification.objects.filter(user=user).delete()
-#             send_email_verification.delay(user.id)
-#         except User.DoesNotExist:
-#                 print('Пользователь не найден')
-#         return redirect(self.request.path)
