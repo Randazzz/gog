@@ -1,6 +1,7 @@
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView, UpdateView
 
@@ -38,6 +39,11 @@ class UserLoginView(LoginView):
     extra_context = {'title': 'Авторизация'}
     template_name = 'users/login.html'
     form_class = UserLoginForm
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('index')
+        return super().get(request, *args, **kwargs)
 
 
 class EmailVerificationView(TemplateView):
