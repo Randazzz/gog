@@ -59,16 +59,20 @@ class OrderCreateView(CreateView):
         return super().form_valid(form)
 
     def post(self, request, *args, **kwargs):
-        super().post(request, *args, **kwargs)
-        baskets = Basket.objects.filter(user=self.request.user)
-        checkout_session = stripe.checkout.Session.create(
-            line_items=baskets.stripe_products(),
-            metadata={'order_id': self.object.id},
-            mode='payment',
-            success_url=settings.DOMAIN_NAME + reverse('orders:order_success'),
-            cancel_url=settings.DOMAIN_NAME + reverse('orders:order_canceled'),
-        )
-        return HttpResponseRedirect(checkout_session.url, status=HTTPStatus.SEE_OTHER)
+        response = super().post(request, *args, **kwargs)
+
+        if self.object:
+            baskets = Basket.objects.filter(user=self.request.user)
+            checkout_session = stripe.checkout.Session.create(
+                line_items=baskets.stripe_products(),
+                metadata={'order_id': self.object.id},
+                mode='payment',
+                success_url=settings.DOMAIN_NAME + reverse('orders:order_success'),
+                cancel_url=settings.DOMAIN_NAME + reverse('orders:order_canceled'),
+            )
+            return HttpResponseRedirect(checkout_session.url, status=HTTPStatus.SEE_OTHER)
+
+        return response
 
 
 @csrf_exempt
