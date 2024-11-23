@@ -4,69 +4,65 @@
 {% block title %}
     <title>{{ title }}</title>
 {% endblock %}
+
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/users/profile.css' %}">
 {% endblock %}
+
 {% block content %}
     <body>
-    <form action="{% url 'users:profile' user.pk %}" method="post" class="form" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="profile-container">
-            <div class="avatar-section">
-                <img src="{% if user.image %} {{ user.image.url }} {% else %} {% static 'img/default_avatar.jpg' %} {% endif %}"
-                     alt="Avatar" class="avatar" id="avatar-image">
-                <input type="file" name="image" id="image" class="upload-avatar" accept="image/*">
-                <button type="submit" name="remove_avatar" value="true" class="remove-avatar">Удалить аватарку</button>
+        <form action="{% url 'users:profile' user.pk %}" method="post" class="form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="profile-container">
+                <div class="avatar-section">
+                    <img src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'img/default_avatar.jpg' %}{% endif %}"
+                         alt="Avatar" class="avatar" id="avatar-image">
+                    <input type="file" name="image" id="image" class="upload-avatar" accept="image/*">
+                    <button type="submit" name="remove_avatar" value="true" class="remove-avatar">Удалить аватарку</button>
+                </div>
+
+                <div class="user-info">
+                    <div class="info-item">
+                        <label for="first_name">Имя:</label>
+                        <input type="text" id="first_name" name="first_name" value="{{ form.first_name.value|default:'' }}"
+                               class="editable" aria-describedby="firstNameHelp" />
+                    </div>
+
+                    <div class="info-item">
+                        <label for="username">Имя пользователя:</label>
+                        <input type="text" id="username" value="{{ user.username }}" class="read-only" disabled aria-disabled="true"/>
+                    </div>
+
+                    <div class="info-item">
+                        <label for="email">Почта:</label>
+                        <input type="email" id="email" value="{{ user.email }}" class="read-only" disabled aria-disabled="true"/>
+                    </div>
+
+                    <button class="save-button" type="submit">Сохранить изменения</button>
+
+                    {% if not user.is_verified_email %}
+                        <div class="resend-section" style="display: inline;">
+                            <button type="submit" name="resend_email" value="true" class="remove-avatar">Отправить письмо для подтверждения эл. почты</button>
+                        </div>
+                    {% endif %}
+                </div>
             </div>
+        </form>
 
-            <div class="user-info">
-                <div class="info-item">
-                    <label for="first_name">Имя:</label>
-                    <input type="text" id="first_name" name="first_name" value="{{ form.first_name.value|default:'' }}"
-                           class="editable"/>
-                </div>
-
-                <div class="info-item">
-                    <label for="username">Имя пользователя:</label>
-                    <input type="text" id="username" value="{{ user.username }}" class="read-only" disabled/>
-                </div>
-
-                <div class="info-item">
-                    <label for="email">Почта:</label>
-                    <input type="email" id="email" value="{{ user.email }}" class="read-only" disabled/>
-                </div>
-
-                <button class="save-button" type="submit">Сохранить изменения</button>
-                {% if not user.is_verified_email %}
-                    <form method="POST" action="{% url 'users:profile' user.pk %}"
-                          style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" name="resend_email" value="true" class="remove-avatar">Отправить письмо
-                            для подтверждения эл. почты
-                        </button>
-                    </form>
-                {% endif %}
-            </div>
+        <div class="cart-section">
+            {% if baskets %}
+                <h2>Корзина</h2>
+                {% for basket in baskets %}
+                    <div class="cart-item">
+                        <span>Товар: {{ basket.product }} Количество: {{ basket.quantity }}</span>
+                        <span class="item-price">{{ basket.product.price }}</span>
+                        <a href="{% url 'products:basket_remove' basket.id %}" class="remove-button">Удалить</a>
+                    </div>
+                {% endfor %}
+                <a href="{% url 'orders:order_create' %}" class="checkout-button">Оформить заказ Товаров: {{ baskets.total_quantity }} Цена: {{ baskets.total_sum }}</a>
+            {% else %}
+                <h2>Корзина пуста</h2>
+            {% endif %}
         </div>
-    </form>
-
-    <div class="cart-section">
-        {% if baskets %}
-            <h2>Корзина</h2>
-            {% for basket in baskets %}
-                <div class="cart-item">
-                    <span>Товар: {{ basket.product }} Количество: {{ basket.quantity }}</span>
-                    <span class="item-price">{{ basket.product.price }}</span>
-                    <a href="{% url 'products:basket_remove' basket.id %}"
-                       class="remove-button">Удалить</a>
-                </div>
-            {% endfor %}
-            <a href="{% url 'orders:order_create' %}"
-               class="checkout-button">Оформить заказ Товаров:{{ baskets.total_quantity }}
-                Цена: {{ baskets.total_sum }}</a>
-        {% else %}
-            <h2>Корзина пуста</h2>
-        {% endif %}
-    </div>
     </body>
 {% endblock %}

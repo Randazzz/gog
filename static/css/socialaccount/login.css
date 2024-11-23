@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-size: cover;
+    color: #000000;
+    background-color: #f9f9f9;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: transparent;
+}
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+}
+
+.profile-container:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+p {
+    font-size: 1em;
+    margin-bottom: 30px;
+    color: #555;
+    text-align: center;
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.actions button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.actions button:hover {
+    background-color: #0056b3;
+}
+
+.csrf-token {
+    display: none;
+}
+
+.error-message {
+    color: #ff4d4d;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.success-message {
+    color: #4CAF50;
+    margin-top: 20px;
+    text-align: center;
+}

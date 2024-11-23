@@ -9,16 +9,16 @@
     <title>{{ title }}</title>
 </head>
 <body>
-<div class="verification-container">
-    <h1>Поздравляем</h1>
-    <p>Ваша учетная запись успешно подтверждена!</p>
-    <button onclick="continueShopping()">Продолжить</button>
-</div>
+    <div class="verification-container">
+        <h1>Поздравляем!</h1>
+        <p>Ваша учетная запись успешно подтверждена!</p>
+        <button class="continue-button" onclick="continueShopping()">Продолжить покупки</button>
+    </div>
 
-<script>
-    function continueShopping() {
-        window.location.href = "{% url 'index' %}";
-    }
-</script>
+    <script>
+        function continueShopping() {
+            window.location.href = "{% url 'index' %}";
+        }
+    </script>
 </body>
 </html>

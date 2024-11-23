@@ -5,36 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block css %} {% endblock %}
     {% block title %}
-        <title>Grace of the Gods </title>
+        <title>Grace of the Gods</title>
     {% endblock %}
 </head>
 <body>
 <header>
-    <div class="logo"><a href="{% url 'index' %}">GoG</a></div>
+    <div class="logo"><a href="{% url 'index' %}">Grace of the Gods</a></div>
     <nav>
-        <ul class="left">
+        <ul class="right">
             <li><a href="{% url 'products:index' %}">Каталог</a></li>
             {% if user.is_authenticated %}
-                <li class="dropdown">
-                    <a href="#" class="profile">👤</a>
-                    <ul class="dropdown-content">
-                        <li><a href="{% url 'users:profile' user.pk %}">Профиль</a></li>
-                        <li><a href="{% url 'orders:orders_list' %}">Заказы</a></li>
-                        {% if user.is_superuser or user.is_staff %}
-                            <li><a href="{% url 'admin:index' %}">Админ панель</a></li>
-                        {% endif %}
-                        <li>
-                            <form action="{% url 'users:logout' %}" method="post" style="display:inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="exit-button">Выйти</button>
-                            </form>
-                    </ul>
+                <li><a href="{% url 'users:profile' user.pk %}">Профиль</a></li>
+                <li><a href="{% url 'orders:orders_list' %}">Заказы</a></li>
+                {% if user.is_superuser or user.is_staff %}
+                    <li><a href="{% url 'admin:index' %}">Админ панель</a></li>
+                {% endif %}
+                <li>
+                    <form action="{% url 'users:logout' %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="exit-button">Выйти</button>
+                    </form>
                 </li>
             {% else %}
-                <li><a href="{% url 'users:login' %}">Войти</a></li>
+                <li class="margin-right: 20px;"><a href="{% url 'users:login' %}">Войти</a></li>
             {% endif %}
         </ul>
     </nav>
 </header>
-
-{% block content %} {% endblock %}
+<div class="separator"></div>
+{% block content %}
+{% endblock %}
+</body>
+</html>
