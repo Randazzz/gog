@@ -1,6 +1,7 @@
 from datetime import timedelta
 from http import HTTPStatus
 
+from celery import current_app
 from django.test import TestCase
 from django.urls import reverse
 from django.utils.timezone import now
@@ -20,6 +21,8 @@ class UserRegistrationViewTests(TestCase):
             'password1': 'Testpassword123',
             'password2': 'Testpassword123',
         }
+        self.old_celery_app = current_app
+        current_app.conf.update(task_always_eager=True)
 
     def test_user_registration_get(self):
         response = self.client.get(self.path)

@@ -1,5 +1,6 @@
 from http import HTTPStatus
 
+import redis
 from django.test import TestCase
 from django.urls import reverse
 
@@ -21,6 +22,10 @@ class IndexViewTests(TestCase):
 class ProductListViewTests(TestCase):
     fixtures = ['products', 'categories']
     paginate_by = ProductsListView.paginate_by
+
+    def setUp(self):
+        self.redis = redis.StrictRedis(host='localhost', port=6379, db=0)
+        self.redis.flushall()
 
     def test_list(self):
         path = reverse('products:index')
