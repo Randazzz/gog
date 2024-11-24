@@ -1,5 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import ListView, TemplateView
 
 from .models import Basket, Product, ProductCategory
@@ -10,6 +13,8 @@ class IndexTemplateView(TemplateView):
     template_name = 'index.html'
 
 
+@method_decorator(cache_page(30), name='dispatch')
+@method_decorator(vary_on_cookie, name='dispatch')
 class ProductsListView(ListView):
     extra_context = {'title': 'Каталог'}
     model = Product
