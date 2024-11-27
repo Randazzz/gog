@@ -74,7 +74,7 @@ class CustomPasswordResetView(PasswordResetView):
     email_template_name = 'users/password_reset_email.html'
     template_name = 'users/password_reset_form.html'
     success_url = reverse_lazy('users:password_reset_done')
-    extra_email_context = {'domain': settings.DOMAIN_NAME}
+    extra_email_context = {'domain': settings.DOMAIN_NAME, 'site_name': 'Grace of the Gods'}
 
     def form_valid(self, form):
         email = form.cleaned_data.get('email')
