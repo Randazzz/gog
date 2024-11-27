@@ -174,6 +174,7 @@ EMAIL_PORT = 465
 EMAIL_HOST_USER = 'graceof.thegods@yandex.ru'
 EMAIL_HOST_PASSWORD = 'qzcelyomjfpvqgjb'
 EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'graceof.thegods@yandex.ru'
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # OAuth

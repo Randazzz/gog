@@ -1,9 +1,11 @@
-from django.contrib.auth.views import LoginView
+from django.conf import settings
+from django.contrib.auth.views import (LoginView, PasswordResetView, PasswordResetConfirmView,
+                                       PasswordResetDoneView, PasswordResetCompleteView)
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, TemplateView, UpdateView, View
+from django.views.generic import CreateView, TemplateView, UpdateView
 
 from apps.users.forms import (UserLoginForm, UserProfileForm,
                               UserRegistrationForm)
@@ -64,3 +66,32 @@ class EmailVerificationView(TemplateView):
             return super().get(self, request, *args, **kwargs)
         else:
             return HttpResponseRedirect(reverse_lazy('index'))
+
+
+class CustomPasswordResetView(PasswordResetView):
+    email_template_name = 'users/password_reset_email.html'
+    template_name = 'users/password_reset_form.html'
+    success_url = reverse_lazy('users:password_reset_done')
+    extra_email_context = {'domain': settings.DOMAIN_NAME}
+
+    def form_valid(self, form):
+        email = form.cleaned_data.get('email')
+
+        if User.objects.filter(email=email).exists():
+            return super().form_valid(form)
+        else:
+            form.add_error('email', 'Пользователь с таким адресом электронной почты не найден.')
+            return self.form_invalid(form)
+
+
+class CustomPasswordResetDoneView(PasswordResetDoneView):
+    template_name = "users/password_reset_done.html"
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = "users/password_reset_confirm.html"
+    success_url = reverse_lazy("users:password_reset_complete")
+
+
+class CustomPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = "users/password_reset_complete.html"
