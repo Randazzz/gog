@@ -1,6 +1,8 @@
 from django.conf import settings
-from django.contrib.auth.views import (LoginView, PasswordResetView, PasswordResetConfirmView,
-                                       PasswordResetDoneView, PasswordResetCompleteView)
+from django.contrib.auth.views import (LoginView, PasswordResetCompleteView,
+                                       PasswordResetConfirmView,
+                                       PasswordResetDoneView,
+                                       PasswordResetView)
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
