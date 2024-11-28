@@ -49,9 +49,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'debug_toolbar',
 
-    'apps.products.apps.ProductsConfig',
-    'apps.users.apps.UsersConfig',
-    'apps.orders.apps.OrdersConfig',
+    'apps.products',
+    'apps.users',
+    'apps.orders',
 ]
 
 MIDDLEWARE = [
