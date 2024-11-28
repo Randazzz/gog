@@ -10,26 +10,56 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import environ
 import os
 from pathlib import Path
 
 from django.contrib import messages
 
+env = environ.Env(
+    DEBUG=bool,
+    SECRET_KEY=str,
+    DOMAIN_NAME=str,
+
+    REDIS_HOST=str,
+    REDIS_PORT=int,
+
+    DATABASE_NAME=str,
+    DATABASE_USER=str,
+    DATABASE_PASSWORD=str,
+    DATABASE_HOST=str,
+    DATABASE_PORT=int,
+
+    EMAIL_HOST=str,
+    EMAIL_PORT=int,
+    EMAIL_HOST_USER=str,
+    EMAIL_HOST_PASSWORD=str,
+    EMAIL_USE_SSL=bool,
+    DEFAULT_FROM_EMAIL=str,
+
+    STRIPE_PUBLIC_KEY=str,
+    STRIPE_SECRET_KEY=str,
+    STRIPE_WEBHOOK_SECRET=str,
+)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Take environment variables from .env file
+environ.Env.read_env(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-sw!a-wl=sueygs#lg$qpa-8yzi9uou%f!65333$!f=a@e-xu(m'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
-DOMAIN_NAME = 'http://127.0.0.1:8000'
+DOMAIN_NAME = env('DOMAIN_NAME')
 
 # Application definition
 
@@ -48,6 +78,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount.providers.github',
     'debug_toolbar',
+    'django_extensions',
 
     'apps.products',
     'apps.users',
@@ -92,10 +123,17 @@ INTERNAL_IPS = [
     'localhost',
 ]
 
+# Redis
+
+REDIS_HOST = env('REDIS_HOST')
+REDIS_PORT = env('REDIS_PORT')
+
+# Caches
+
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/1',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
@@ -108,11 +146,11 @@ CACHES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'gog_db',
-        'USER': 'gog_username',
-        'PASSWORD': 'gog_password',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
+        'HOST': env('DATABASE_HOST'),
+        'PORT': env('DATABASE_PORT'),
     }
 }
 
@@ -159,23 +197,27 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Users
+
 LOGOUT_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/users/login/'
 
 # Media
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Verification email
-EMAIL_HOST = 'smtp.yandex.com'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = 'graceof.thegods@yandex.ru'
-EMAIL_HOST_PASSWORD = 'qzcelyomjfpvqgjb'
-EMAIL_USE_SSL = True
-DEFAULT_FROM_EMAIL = 'graceof.thegods@yandex.ru'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_HOST = env('EMAIL_HOST')
+    EMAIL_PORT = env('EMAIL_PORT')
+    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+    EMAIL_USE_SSL = env('EMAIL_USE_SSL')
+    DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 
 # OAuth
 
@@ -203,11 +245,11 @@ SOCIALACCOUNT_PROVIDERS = {
 
 # Celery
 
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}'
+CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}'
 
 # Stripe
 
-STRIPE_PUBLIC_KEY = 'pk_test_51Pq9gtFEYi1z8K65wTPojg4vgJe2ZzxWcrVYonv2AIjnQWXcxd0LVt1Zo57yWylpvF0njxxbXIF8j795YmTEYxk900mvbhKNPY'
-STRIPE_SECRET_KEY = 'sk_test_51Pq9gtFEYi1z8K65GCAX2jQONq7Nenmxisdl0MF6FkYkBA5XS5y4YebdawHUwZH0FR72pQEkloBYYZAExiOJXmLQ00zANQ7joE'
-STRIPE_WEBHOOK_SECRET = 'whsec_629f9cde35ed384f693c2905cd6ed9a25e8cea640c5623ee933fcb3e85033f7d'
+STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET')
