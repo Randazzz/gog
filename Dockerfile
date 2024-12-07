@@ -13,5 +13,6 @@ RUN pip install -r requirements.txt
 COPY . .
 
 RUN mkdir -p /gogserver/gog/staticfiles
+RUN mkdir -p /gogserver/gog/media
 
 WORKDIR /gogserver/gog

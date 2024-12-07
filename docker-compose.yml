@@ -12,6 +12,7 @@ services:
       - celery
     volumes:
       - static_volume:/gogserver/gog/staticfiles
+      - media_volume:/gogserver/gog/media
     environment:
       - REDIS_URL=redis://redis:6379
   db:
@@ -27,11 +28,12 @@ services:
   nginx:
     build: ./nginx
     ports:
-      - "1337:80"
+      - "80:80"
     depends_on:
       - web
     volumes:
       - static_volume:/gogserver/gog/staticfiles
+      - media_volume:/gogserver/gog/media
 
   redis:
     image: "redis:alpine"
@@ -54,3 +56,4 @@ services:
 volumes:
   postgres_data:
   static_volume:
+  media_volume:
