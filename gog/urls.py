@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from rest_framework.authtoken.views import obtain_auth_token
 
 from apps.orders.views import stripe_webhook_view
 from apps.products.views import IndexTemplateView
@@ -31,6 +32,8 @@ urlpatterns = [
     path('orders/', include('apps.orders.urls', namespace='orders')),
     path('accounts/', include('allauth.urls')),
     path('webhook/stripe/', stripe_webhook_view, name='stripe_webhook'),
+    path('api/', include('apps.api.urls', namespace='api')),
+    path('api-token-auth/', obtain_auth_token),
 ] + debug_toolbar_urls()
 
 if settings.DEBUG:
